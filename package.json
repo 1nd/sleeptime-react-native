@@ -1,6 +1,7 @@
 {
   "name": "sleeptime",
   "version": "0.1.0",
+  "license": "MIT",
   "dependencies": {
     "expo": "^25.0.0",
     "react": "16.2.0",
