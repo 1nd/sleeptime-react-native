@@ -1,7 +1,6 @@
 {
   "name": "sleeptime",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "expo": "^25.0.0",
     "react": "16.2.0",
