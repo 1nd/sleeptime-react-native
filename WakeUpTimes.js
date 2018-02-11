@@ -19,6 +19,7 @@ type CalculateWakeUpTimes = (params: {
 const DEFAULT_FALL_ASLEEP = 14; // always in minutes.
 const NUM_OF_CYCLE = 7;
 const CYCLE_LENGTH = 90; // always in minutes.
+const RECOMMENDED_MIN_CYCLE = 5;
 
 const calculateWakeUpTimes: CalculateWakeUpTimes = ({
   goToBedTime,
@@ -51,12 +52,18 @@ const calculateSleepDuration: CalculateSleepDuration = ({
   return wakeUpTime.diff(start, ['hours', 'minutes']);
 };
 
+const isRecommendedCycle = (cycle: number): boolean =>
+  cycle >= RECOMMENDED_MIN_CYCLE;
+
 const styles = StyleSheet.create({
   text: {
     color: 'white',
   },
   time: {
     marginTop: 10,
+  },
+  recommendedCycleText: {
+    color: 'aqua',
   },
 });
 
@@ -70,19 +77,22 @@ class WakeUpTimes extends React.Component<Props> {
           data={wakeUpTimes}
           keyExtractor={(item) => item.cycle.toString()}
           renderItem={({ item }) => {
+            const textStyle = isRecommendedCycle(item.cycle)
+              ? [styles.text, styles.recommendedCycleText]
+              : [styles.text];
             return (
               <View style={styles.time}>
-                <Text style={styles.text}>
+                <Text style={textStyle}>
                   {item.dateTime.toLocaleString(DateTime.TIME_SIMPLE)}
                 </Text>
-                <Text style={styles.text}>
+                <Text style={textStyle}>
                   Nap for{' '}
                   {calculateSleepDuration({
                     goToBedTime,
                     wakeUpTime: item.dateTime,
                   }).toFormat("hh 'hour(s), ' mm 'minute(s)'")}
                 </Text>
-                <Text style={styles.text}>{item.cycle} cycle(s)</Text>
+                <Text style={textStyle}>{item.cycle} cycle(s)</Text>
               </View>
             );
           }}
