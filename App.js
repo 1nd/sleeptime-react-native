@@ -1,11 +1,22 @@
 // @flow
 
 import React from 'react';
-import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
-import WakeUpTimes from './WakeUpTimes';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  StatusBar,
+  Button,
+} from 'react-native';
+import Result from './Result';
 import { DateTime } from 'luxon';
 
 type Props = {};
+
+type State = {
+  currentPage: 'start' | 'result',
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -19,19 +30,53 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
   },
+  startPage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backToStartButton: {
+    marginTop: 10,
+  },
 });
 
-export default class App extends React.Component<Props> {
+export default class App extends React.Component<Props, State> {
+  state = {
+    currentPage: 'start',
+  };
+
   render() {
-    const now = DateTime.local();
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          If you go to bed at {now.toLocaleString(DateTime.TIME_SIMPLE)}
-        </Text>
-        <Text style={styles.text}>you should wake up at</Text>
-        <WakeUpTimes goToBedTime={now} />
-      </View>
-    );
+    const { currentPage } = this.state;
+
+    switch (currentPage) {
+      case 'start':
+        return (
+          <View style={[styles.container, styles.startPage]}>
+            <Button
+              title="Sleep now"
+              onPress={() => {
+                this.setState({ currentPage: 'result' });
+              }}
+            />
+            <Text style={styles.text}>
+              Find out when to wake up if you sleep now.
+            </Text>
+          </View>
+        );
+      case 'result':
+        return (
+          <View style={styles.container}>
+            <Result goToBedTime={DateTime.local()} />
+            <Button
+              title="Back to start"
+              onPress={() => {
+                this.setState({ currentPage: 'start' });
+              }}
+              style={styles.backToStartButton}
+            />
+          </View>
+        );
+      default:
+        throw new TypeError('Invalid page');
+    }
   }
 }
