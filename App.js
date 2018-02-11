@@ -22,10 +22,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
-
-    // TODO: https://github.com/react-navigation/react-navigation/issues/1478
-    // Hack to make sure top of the app doesn't overlap with Android's status bar.
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   text: {
     color: 'white',
