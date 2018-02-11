@@ -4,6 +4,7 @@
   "license": "MIT",
   "dependencies": {
     "expo": "^25.0.0",
+    "luxon": "^0.4.0",
     "react": "16.2.0",
     "react-native": "0.52.0"
   },
