@@ -21,7 +21,7 @@
     "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js",
     "flow": "flow",
-    "lint": "prettier --write **.js .**.js"
+    "lint": "prettier --write **/*.{js,json,md}"
   },
   "jest": {
     "preset": "react-native"
